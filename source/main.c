@@ -10,9 +10,17 @@ int detectCartSize()
 {
 	char* c = (char*)GBA_ROM_ADDR;
 
-	for (int mbits = 1; mbits < 256; mbits *= 2)
+	for (int mbits = 1; mbits <= 256; mbits *= 2)
 	{
 		c = (char*) GBA_ROM_ADDR + ((1024 * 128) * mbits) + 1;
+
+		if (mbits == 256)
+		{
+			c = (char*) GBA_ROM_ADDR + 1;
+
+			if (c[1] != 0x01 && c[3] != 0x02 && c[5] != 0x03 && c[7] != 0x04 && c[9] != 0x05 && c[11] != 0x06 && c[13] != 0x07 && c[15] != 0x08)
+				return 256;
+		}
 
 		if (c[0] == 0x00)
 		{
